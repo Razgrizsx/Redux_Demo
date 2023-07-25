@@ -3,6 +3,10 @@ console.log("From Index.js")
 const redux = require("redux")
 const bindActionCreators = redux.bindActionCreators
 const combienReducers = redux.combineReducers
+const reduxLogger = require('redux-logger')
+const applyMiddleWare = redux.applyMiddleware
+
+const logger = reduxLogger.createLogger()
 
 const CAKE_ORDERED = "CAKE_ORDERED"
 const CAKE_RESTOCK = "CAKE_RESTOCK"
@@ -84,10 +88,9 @@ const icecreamReducer = (state= initialIcecreams, action) => {
 
 const rootReducer = combienReducers({cake: cakeReducer,iceCream: icecreamReducer})
 
-const store = redux.createStore(rootReducer)
-console.log("Initial State ", store.getState())
+const store = redux.createStore(rootReducer, applyMiddleWare(logger))
 
-const unsubscribe = store.subscribe(()=>console.log("Update state ", store.getState()))
+const unsubscribe = store.subscribe(()=>{})
 
 /* store.dispatch(orderCake())
 store.dispatch(orderCake())
@@ -101,6 +104,7 @@ actions.orderCake()
 actions.orderCake()
 actions.restockCake(3)
 actions.orderIcecream()
+
 actions.restockIcecream(5)
 
 

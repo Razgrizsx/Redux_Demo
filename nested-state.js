@@ -1,6 +1,10 @@
 const redux = require("redux")
 const produce = require('immer').produce
 const bindActionCreators = redux.bindActionCreators
+const reduxLogger = require('redux-logger')
+const applyMiddleWare = redux.applyMiddleware
+
+const logger = reduxLogger.createLogger()
 
 const initialState={
     name: "Chris",
@@ -39,9 +43,9 @@ const reducer = (state = initialState, action) => {
             }
     }    
 }
-console.log(initialState)
-const store = redux.createStore(reducer)
-const unsubscribe = store.subscribe(()=>{console.log("Updated ", store.getState())})
+
+const store = redux.createStore(reducer, applyMiddleWare(logger))
+const unsubscribe = store.subscribe(()=>{})
 const actions = bindActionCreators({streetUpdate}, store.dispatch)
 
 actions.streetUpdate("almafuerte")
